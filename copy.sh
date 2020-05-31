@@ -3,13 +3,13 @@
 set -e
 
 # set below environment variables
-# AURORA_HOSTNAME="database hostname"
-# AURORA_PASSWORD="database password"
-# AURORA_PORT="database port"
-# AURORA_DATABASE="database name"
-# AURORA_USERNAME="database username"
+# BACKUP_HOSTNAME="database hostname"
+# BACKUP_PASSWORD="database password"
+# BACKUP_PORT="database port"
+# BACKUP_DATABASE="database name"
+# BACKUP_USERNAME="database username"
 
-OUTPUT_DIR="${AURORA_DATABASE}"
+OUTPUT_DIR="${BACKUP_DATABASE}"
 
 case "$(uname -s)" in
   ("Darwin") CPU_CORES=$(sysctl -n hw.ncpu);;
@@ -18,12 +18,12 @@ esac
 
 BEGIN_SECOND=${SECONDS}
 
-PGPASSWORD=${AURORA_PASSWORD} pg_dump \
-  -h ${AURORA_HOSTNAME} \
-  -p ${AURORA_PORT} \
-  -U ${AURORA_USERNAME} \
+PGPASSWORD=${BACKUP_PASSWORD} pg_dump \
+  -h ${BACKUP_HOSTNAME} \
+  -p ${BACKUP_PORT} \
+  -U ${BACKUP_USERNAME} \
   -w \
-  -d ${AURORA_DATABASE} \
+  -d ${BACKUP_DATABASE} \
   -v \
   -j ${CPU_CORES} \
   -F d \
