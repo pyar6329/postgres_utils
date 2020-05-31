@@ -35,6 +35,7 @@ PGPASSWORD=${RESTORE_PASSWORD} pg_restore \
   ${OUTPUT_DIR}
 
 echo "pg_restore is finished"
+rm -rf ${OUTPUT_DIR}
 
 END_SECOND=${SECONDS}
 TOTAL_SECOND=$(( ${END_SECOND} - ${BEGIN_SECOND} ))
