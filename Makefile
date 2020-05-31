@@ -14,6 +14,10 @@ copy: ## pg_dump to *.tar.zst
 restore: ## pg_restore from *.tar.zst
 	@./restore.sh
 
+.PHONY:	psql
+psql: ## psql and enter database
+	@./psql.sh
+
 .PHONY:	up
 up: ## run PostgreSQL container
 	@./run_server.sh
