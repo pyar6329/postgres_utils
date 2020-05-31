@@ -3,6 +3,7 @@
 set -e
 
 POSTGRES_DATA="${PWD}/data"
+POSTGRES_INITDB="${PWD}/initdb"
 
 if ! [ -e "${POSTGRES_DATA}" ]; then
   mkdir -p ${POSTGRES_DATA}
@@ -20,6 +21,7 @@ docker run -it \
   -u $(id -u ${USER}):$(id -g ${USER}) \
   -v /etc/passwd:/etc/passwd:ro \
   -v /etc/group:/etc/group:ro \
+  -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
   -v "${POSTGRES_DATA}:/data" \
   postgres:11
 
