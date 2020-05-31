@@ -5,7 +5,7 @@ set -e
 POSTGRES_DATA="${PWD}/data"
 
 if ! [ -e "${POSTGRES_DATA}" ]; then
-  mkdir -p data
+  mkdir -p ${POSTGRES_DATA}
 fi
 
 docker run -it \
