@@ -24,6 +24,6 @@ down: ## shutdown PostgreSQL container
 
 .PHONY:	clean
 clean: ## remove container, data
-	@make stop
+	@make down
 	@rm -rf data
 
