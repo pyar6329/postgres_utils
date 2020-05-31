@@ -11,6 +11,7 @@ fi
 docker run -it \
   -d \
   --rm \
+  --name "postgres" \
   -p "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}" \
   -e "POSTGRES_DB=${POSTGRES_DATABASE:-dsf_api}" \
   -e "POSTGRES_USER=${USER}" \
