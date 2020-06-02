@@ -37,6 +37,17 @@ PGPASSWORD=${RESTORE_PASSWORD} pg_restore \
 echo "pg_restore is finished"
 rm -rf ${OUTPUT_DIR}
 
+# -Jはdead lock発生するので外す
+PGPASSWORD=${RESTORE_PASSWORD} vacuumdb \
+  -h ${RESTORE_HOSTNAME} \
+  -p ${RESTORE_PORT} \
+  -U ${RESTORE_USERNAME} \
+  -w \
+  -a \
+  -z \
+  -f \
+  -v
+
 END_SECOND=${SECONDS}
 TOTAL_SECOND=$(( ${END_SECOND} - ${BEGIN_SECOND} ))
 RESULT_HOUR=$(eval "echo $(date -ud "@${TOTAL_SECOND}" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')")
