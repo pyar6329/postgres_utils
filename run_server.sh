@@ -23,5 +23,13 @@ docker run -it \
   -v /etc/group:/etc/group:ro \
   -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
   -v "${POSTGRES_DATA}:/data" \
-  postgres:11
+  postgres:11 postgres \
+  -c log_destination=stderr \
+  -c log_statement=all \
+  -c log_connections=on \
+  -c log_disconnections=on
 
+# log_destination: ログの出力先
+# log_statement: クエリをログに出力する
+# log_connections: コネクション接続時にログを出力する
+# log_disconnections: コネクション切断時にログを出力する

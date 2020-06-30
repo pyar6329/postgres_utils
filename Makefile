@@ -18,6 +18,10 @@ restore: ## pg_restore from $BACKUP_DATABASE.tar.zst
 psql: ## psql and enter database
 	@./psql.sh
 
+.PHONY: log
+log: ## show logging postgres
+	@docker logs -f postgres
+
 .PHONY:	up
 up: ## run PostgreSQL container
 	@./run_server.sh
