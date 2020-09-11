@@ -23,7 +23,7 @@ docker run -it \
   -v /etc/group:/etc/group:ro \
   -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
   -v "${POSTGRES_DATA}:/data" \
-  postgres:11 postgres \
+  postgres:11.6 postgres \
   -c log_destination=stderr \
   -c log_statement=all \
   -c log_connections=on \
