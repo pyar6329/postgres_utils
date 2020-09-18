@@ -42,6 +42,7 @@ PGPASSWORD=${RESTORE_PASSWORD} vacuumdb \
   -h ${RESTORE_HOSTNAME} \
   -p ${RESTORE_PORT} \
   -U ${RESTORE_USERNAME} \
+  -d ${RESTORE_DATABASE} \
   -w \
   -a \
   -z \
