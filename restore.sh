@@ -18,7 +18,10 @@ esac
 
 BEGIN_SECOND=${SECONDS}
 
-tar -I pzstd -xf ${OUTPUT_DIR}.tar.zst
+if ! [ -e "${OUTPUT_DIR}" ]; then
+  mkdir -p ${OUTPUT_DIR}
+fi
+tar -I pzstd -xf ${OUTPUT_DIR}.tar.zst -C ${OUTPUT_DIR} --strip-components 1
 echo "extract is finished"
 
 PGPASSWORD=${RESTORE_PASSWORD} pg_restore \
