@@ -21,6 +21,9 @@ case ${OS_NAME} in
       -e "POSTGRES_DB=${POSTGRES_DATABASE:-dsf_api}" \
       -e "POSTGRES_USER=${USER}" \
       -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}" \
+      -e "TZ=UTC" \
+      -e "LANG=C.UTF-8" \
+      -e "LC_ALL=C.UTF-8" \
       -e "PGDATA=/data" \
       -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
       -v "${POSTGRES_DATA}:/data" \
@@ -40,6 +43,9 @@ case ${OS_NAME} in
       -e "POSTGRES_USER=${USER}" \
       -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}" \
       -e "PGDATA=/data" \
+      -e "TZ=UTC" \
+      -e "LANG=C.UTF-8" \
+      -e "LC_ALL=C.UTF-8" \
       -u $(id -u ${USER}):$(id -g ${USER}) \
       -v /etc/passwd:/etc/passwd:ro \
       -v /etc/group:/etc/group:ro \
