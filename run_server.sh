@@ -17,7 +17,6 @@ case ${OS_NAME} in
       -d \
       --rm \
       --name "postgres" \
-      --restart always \
       -p "${POSTGRES_PORT:-5432}:5432" \
       -e "POSTGRES_DB=${POSTGRES_DATABASE:-dsf_api}" \
       -e "POSTGRES_USER=${USER}" \
@@ -37,7 +36,6 @@ case ${OS_NAME} in
   * )
     docker run -it \
       -d \
-      --rm \
       --name "postgres" \
       --restart always \
       -p "${POSTGRES_PORT:-5432}:5432" \
