@@ -41,15 +41,17 @@ $ direnv allow
 ## Usage
 
 ```bash
-$ make help
+$ make
 help                           show this help message.
-copy                           pg_dump to $COMPRESSED_FILE_NAME.tar.zst
-restore                        pg_restore from $COMPRESSED_FILE_NAME.tar.zst
+copy                           pg_dump to '$COMPRESSED_FILE_NAME.tar.zst'
+restore                        pg_restore from '$COMPRESSED_FILE_NAME.tar.zst'. Please remove records using 'make re_create_database' if the database have already data
 psql                           psql and enter database
 log                            show logging postgres
 up                             run PostgreSQL container
 run                            run PostgreSQL container. (it's sames to 'make up')
 down                           shutdown PostgreSQL container
 stop                           shutdown PostgreSQL container. (it's sames to 'make down')
+re_create_database             drop database and create database. I suggest you to use this command before 'make restore'
+check_port                     check port of PostgreSQL CLI can access or not
 clean                          remove container, data
 ```
