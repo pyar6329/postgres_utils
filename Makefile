@@ -32,11 +32,19 @@ log: ## show logging postgres
 
 .PHONY:	up
 up: ## run PostgreSQL container
-	@./run_server.sh
+	@./run_server.sh --up
+
+.PHONY:	run
+run: ## run PostgreSQL container. (it's sames to 'make up')
+	@make up
 
 .PHONY:	down
 down: ## shutdown PostgreSQL container
-	@if docker ps -a | grep postgres; then docker rm -vf postgres; fi
+	@./run_server.sh --down
+
+.PHONY:	stop
+stop: ## shutdown PostgreSQL container. (it's sames to 'make down')
+	@make down
 
 .PHONY:	clean
 clean: ## remove container, data
