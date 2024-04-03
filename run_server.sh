@@ -2,8 +2,10 @@
 
 set -e
 
-POSTGRES_DATA="${PWD}/data"
-POSTGRES_INITDB="${PWD}/initdb"
+SCRIPT_DIR=$(echo $(cd $(dirname $0) && pwd))
+
+POSTGRES_DATA="${SCRIPT_DIR}/data"
+POSTGRES_INITDB="${SCRIPT_DIR}/initdb"
 
 OS_NAME="$(uname -s)"
 
