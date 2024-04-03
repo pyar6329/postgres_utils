@@ -7,11 +7,11 @@ help: ## show this help message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY:	copy
-copy: ## pg_dump to $COMPRESSED_FILE_NAME.tar.zst
+copy: ## pg_dump to '$COMPRESSED_FILE_NAME.tar.zst'
 	@./copy.sh
 
 .PHONY:	restore
-restore: ## pg_restore from $COMPRESSED_FILE_NAME.tar.zst
+restore: ## pg_restore from '$COMPRESSED_FILE_NAME.tar.zst'. Please remove records using 'make re_create_database' if the database have already data
 	@./restore.sh
 
 .PHONY:	s3_upload
@@ -46,8 +46,11 @@ down: ## shutdown PostgreSQL container
 stop: ## shutdown PostgreSQL container. (it's sames to 'make down')
 	@make down
 
+.PHONY:	re_create_database
+re_create_database: ## drop database and create database. I suggest you to use this command before 'make restore'
+	@./re_create_database.sh
+
 .PHONY:	clean
 clean: ## remove container, data
 	@make down
 	@rm -rf data
-
