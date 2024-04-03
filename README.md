@@ -43,10 +43,13 @@ $ direnv allow
 ```bash
 $ make help
 help                           show this help message.
-copy                           pg_dump to *.tar.zst
-restore                        pg_restore from *.tar.zst
+copy                           pg_dump to $COMPRESSED_FILE_NAME.tar.zst
+restore                        pg_restore from $COMPRESSED_FILE_NAME.tar.zst
 psql                           psql and enter database
+log                            show logging postgres
 up                             run PostgreSQL container
+run                            run PostgreSQL container. (it's sames to 'make up')
 down                           shutdown PostgreSQL container
+stop                           shutdown PostgreSQL container. (it's sames to 'make down')
 clean                          remove container, data
 ```
