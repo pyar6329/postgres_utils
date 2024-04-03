@@ -50,6 +50,10 @@ stop: ## shutdown PostgreSQL container. (it's sames to 'make down')
 re_create_database: ## drop database and create database. I suggest you to use this command before 'make restore'
 	@./re_create_database.sh
 
+.PHONY:	check_port
+check_port: ## check port of PostgreSQL CLI can access or not
+	@./check_port.sh
+
 .PHONY:	clean
 clean: ## remove container, data
 	@make down
