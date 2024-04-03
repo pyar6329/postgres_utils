@@ -9,7 +9,7 @@ set -e
 # BACKUP_DATABASE="database name"
 # BACKUP_USERNAME="database username"
 
-OUTPUT_DIR="${BACKUP_DATABASE}"
+OUTPUT_DIR="${COMPRESSED_FILE_NAME}"
 
 case "$(uname -s)" in
   ("Darwin") CPU_CORES=$(sysctl -n hw.ncpu);;

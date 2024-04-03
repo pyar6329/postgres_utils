@@ -9,7 +9,7 @@ set -e
 # RESTORE_DATABASE="database name"
 # RESTORE_USERNAME="database username"
 
-OUTPUT_DIR="${RESTORE_DATABASE}"
+OUTPUT_DIR="${COMPRESSED_FILE_NAME}"
 
 case "$(uname -s)" in
   ("Darwin") CPU_CORES=$(sysctl -n hw.ncpu);;

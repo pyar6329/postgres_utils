@@ -7,12 +7,20 @@ help: ## show this help message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY:	copy
-copy: ## pg_dump to $BACKUP_DATABASE.tar.zst
+copy: ## pg_dump to $COMPRESSED_FILE_NAME.tar.zst
 	@./copy.sh
 
 .PHONY:	restore
-restore: ## pg_restore from $BACKUP_DATABASE.tar.zst
+restore: ## pg_restore from $COMPRESSED_FILE_NAME.tar.zst
 	@./restore.sh
+
+.PHONY:	s3_upload
+s3_upload: ## upload $COMPRESSED_FILE_NAME.tar.zst to AWS S3. It stored to $OUTPUT_S3_URL
+	@./s3_upload.sh
+
+.PHONY:	s3_download
+s3_download: ## download $COMPRESSED_FILE_NAME.tar.zst from AWS S3. It download from $OUTPUT_S3_URL
+	@./s3_download.sh
 
 .PHONY:	psql
 psql: ## psql and enter database

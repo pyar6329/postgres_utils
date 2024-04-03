@@ -16,3 +16,5 @@ export PSQL_PORT="${RESTORE_PORT}"
 export PSQL_DATABASE="${RESTORE_DATABASE}"
 export PSQL_USERNAME="${RESTORE_USERNAME}"
 
+export COMPRESSED_FILE_NAME="foobar" # it saved as foobar.tar.zst
+export OUTPUT_S3_URL="s3://<bucket_name>/$(TZ=JST-9 date '+%Y%m%d')/${COMPRESSED_FILE_NAME}.tar.zst"
