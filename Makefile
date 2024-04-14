@@ -24,7 +24,7 @@ s3_download: ## download $COMPRESSED_FILE_NAME.tar.zst from AWS S3. It download 
 
 .PHONY:	psql
 psql: ## psql and enter database
-	@./psql.sh
+	@./run_server.sh --psql
 
 .PHONY: log
 log: ## show logging postgres
@@ -53,6 +53,10 @@ re_create_database: ## drop database and create database. I suggest you to use t
 .PHONY:	check_port
 check_port: ## check port of PostgreSQL CLI can access or not
 	@./check_port.sh
+
+.PHONY:	shell
+shell: ## into PostgreSQL container and run shell
+	@./run_server.sh --shell
 
 .PHONY:	clean
 clean: ## remove container, data

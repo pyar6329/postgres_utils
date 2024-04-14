@@ -8,6 +8,7 @@ SCRIPT_DIR=$(echo $(cd $(dirname $0) && pwd))
 POSTGRES_DATA="${SCRIPT_DIR}/data"
 POSTGRES_INITDB="${SCRIPT_DIR}/initdb"
 
+IMAGE_NAME="ghcr.io/pyar6329/postgres:14.11"
 
 OS_NAME="$(uname -s)"
 
@@ -44,7 +45,7 @@ function run_postgres {
           -e "PGDATA=/data" \
           -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
           -v "${POSTGRES_DATA}:/data" \
-          postgres:14.11 postgres \
+          ${IMAGE_NAME} postgres \
           -c log_destination=stderr \
           -c log_statement=all \
           -c log_connections=on \
@@ -62,16 +63,16 @@ function run_postgres {
           -e "POSTGRES_DB=${POSTGRES_DATABASE:-dsf_api}" \
           -e "POSTGRES_USER=${USER}" \
           -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}" \
-          -e "PGDATA=/data" \
           -e "TZ=UTC" \
           -e "LANG=C.UTF-8" \
           -e "LC_ALL=C.UTF-8" \
+          -e "PGDATA=/data" \
           -u $(id -u ${USER}):$(id -g ${USER}) \
           -v /etc/passwd:/etc/passwd:ro \
           -v /etc/group:/etc/group:ro \
           -v "${POSTGRES_INITDB}:/docker-entrypoint-initdb.d" \
           -v "${POSTGRES_DATA}:/data" \
-          postgres:14.11 postgres \
+          ${IMAGE_NAME} postgres \
           -c log_destination=stderr \
           -c log_statement=all \
           -c log_connections=on \
@@ -101,12 +102,36 @@ function shutdown_postgres {
   fi
 }
 
+function into_shell {
+  # The process is killed if process exists
+  if $(docker ps -a | grep postgres > /dev/null 2>&1); then
+    docker exec -it postgres bash
+  else
+    echo "postgres server was already downed"
+  fi
+}
+
+function run_psql {
+  # The process is killed if process exists
+  if $(docker ps -a | grep postgres > /dev/null 2>&1); then
+    docker exec -it postgres psql "host=localhost port=5432 sslmode=disable dbname=${POSTGRES_DATABASE:-dsf_api} user=${USER} password=${POSTGRES_PASSWORD:-postgres}"
+  else
+    echo "postgres server was already downed"
+  fi
+}
+
 case "${ARGS}" in
   "--up" )
     run_postgres
     ;;
   "--down" )
     shutdown_postgres
+    ;;
+  "--shell" )
+    into_shell
+    ;;
+  "--psql" )
+    run_psql
     ;;
   * )
     echo "argument is required. Please set '--up' or '--down'"
