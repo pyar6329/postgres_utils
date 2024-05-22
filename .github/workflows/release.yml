@@ -37,20 +37,15 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-    # - name: Get Docker image tag for Release
-    #   id: release_tag
-    #   if: startsWith(github.ref, 'refs/tags/')
-    #   run: |
-    #     echo "tag=${GITHUB_REF:10}" >> $GITHUB_OUTPUT
-
     - name: Get Docker image tag for Release
       id: release_tag
+      if: startsWith(github.ref, 'refs/tags/')
       run: |
-        echo "tag=wip-0.0.1" >> $GITHUB_OUTPUT
+        echo "tag=${GITHUB_REF:10}" >> $GITHUB_OUTPUT
 
     - name: Build PostgreSQL image and push it to GItHub Container Registry
       uses: docker/build-push-action@v5
-      # if: startsWith(github.ref, 'refs/tags/')
+      if: startsWith(github.ref, 'refs/tags/')
       env:
         IMAGE_TAG: release-${{ steps.release_tag.outputs.tag }}
       with:
