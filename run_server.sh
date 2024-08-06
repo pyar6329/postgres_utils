@@ -56,7 +56,8 @@ function run_postgres {
           -c auto_explain.log_buffers=on \
           -c auto_explain.log_format=text \
           -c auto_explain.log_verbose=on \
-          -c auto_explain.log_triggers=on
+          -c auto_explain.log_triggers=on \
+          -c auto_explain.log_nested_statements=on
         ;;
       * )
         docker run -it \
@@ -90,7 +91,8 @@ function run_postgres {
           -c auto_explain.log_buffers=on \
           -c auto_explain.log_format=text \
           -c auto_explain.log_verbose=on \
-          -c auto_explain.log_triggers=on
+          -c auto_explain.log_triggers=on \
+          -c auto_explain.log_nested_statements=on
         ;;
     esac
     # log_destination: ログの出力先
