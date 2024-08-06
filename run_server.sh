@@ -8,7 +8,7 @@ SCRIPT_DIR=$(echo $(cd $(dirname $0) && pwd))
 POSTGRES_DATA="${SCRIPT_DIR}/data"
 POSTGRES_INITDB="${SCRIPT_DIR}/initdb"
 
-IMAGE_NAME="ghcr.io/pyar6329/postgres:14.11"
+IMAGE_NAME="ghcr.io/pyar6329/postgres:14.11-2"
 
 OS_NAME="$(uname -s)"
 
@@ -49,7 +49,14 @@ function run_postgres {
           -c log_destination=stderr \
           -c log_statement=all \
           -c log_connections=on \
-          -c log_disconnections=on
+          -c log_disconnections=on \
+          -c shared_preload_libraries='auto_explain' \
+          -c auto_explain.log_min_duration=0 \
+          -c auto_explain.log_analyze=on \
+          -c auto_explain.log_buffers=on \
+          -c auto_explain.log_format=text \
+          -c auto_explain.log_verbose=on \
+          -c auto_explain.log_triggers=on
         ;;
       * )
         docker run -it \
@@ -76,7 +83,14 @@ function run_postgres {
           -c log_destination=stderr \
           -c log_statement=all \
           -c log_connections=on \
-          -c log_disconnections=on
+          -c log_disconnections=on \
+          -c shared_preload_libraries='auto_explain' \
+          -c auto_explain.log_min_duration=0 \
+          -c auto_explain.log_analyze=on \
+          -c auto_explain.log_buffers=on \
+          -c auto_explain.log_format=text \
+          -c auto_explain.log_verbose=on \
+          -c auto_explain.log_triggers=on
         ;;
     esac
     # log_destination: ログの出力先
