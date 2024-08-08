@@ -21,3 +21,5 @@ export OUTPUT_S3_URL="s3://<bucket_name>/$(TZ=JST-9 date '+%Y%m%d')/${COMPRESSED
 
 export CHECK_HOSTNAME="localhost"
 export CHECK_PORT="5432"
+
+export MIN_DURATION="1" # milli seconds

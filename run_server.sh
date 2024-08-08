@@ -51,7 +51,7 @@ function run_postgres {
           -c log_connections=on \
           -c log_disconnections=on \
           -c shared_preload_libraries='auto_explain' \
-          -c auto_explain.log_min_duration=0 \
+          -c auto_explain.log_min_duration="${MIN_DURATION:-0}" \
           -c auto_explain.log_analyze=on \
           -c auto_explain.log_buffers=on \
           -c auto_explain.log_format=text \
@@ -86,7 +86,7 @@ function run_postgres {
           -c log_connections=on \
           -c log_disconnections=on \
           -c shared_preload_libraries='auto_explain' \
-          -c auto_explain.log_min_duration=0 \
+          -c auto_explain.log_min_duration="${MIN_DURATION:-0}" \
           -c auto_explain.log_analyze=on \
           -c auto_explain.log_buffers=on \
           -c auto_explain.log_format=text \
