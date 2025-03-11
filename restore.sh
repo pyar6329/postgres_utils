@@ -9,6 +9,8 @@ set -e
 # RESTORE_DATABASE="database name"
 # RESTORE_USERNAME="database username"
 
+SCRIPT_DIR=$(echo $(cd $(dirname $0) && pwd))
+
 OUTPUT_DIR="${COMPRESSED_FILE_NAME}"
 
 case "$(uname -s)" in
@@ -24,18 +26,42 @@ fi
 tar -I pzstd -xf ${OUTPUT_DIR}.tar.zst -C ${OUTPUT_DIR} --strip-components 1
 echo "extract is finished"
 
-PGPASSWORD=${RESTORE_PASSWORD} pg_restore \
-  -h ${RESTORE_HOSTNAME} \
-  -p ${RESTORE_PORT} \
-  -U ${RESTORE_USERNAME} \
-  -w \
-  -d ${RESTORE_DATABASE} \
-  -v \
-  -j ${CPU_CORES} \
-  -F d \
-  -x \
-  -O \
-  ${OUTPUT_DIR}
+OS_NAME=$(uname -s)
+
+if [ "${OS_NAME}" = "Linux" ]; then
+  IMAGE_NAME=$(cat "${SCRIPT_DIR}/run_server.sh" | grep 'IMAGE_NAME' | grep 'ghcr' | awk -F '=' '{print $2}' | tr -d '"' | tr -d '\n')
+
+  docker run --rm \
+    -e PGPASSWORD=${RESTORE_PASSWORD} \
+    -e PGOPTIONS="-c statement_timeout=0" \
+    -v ${SCRIPT_DIR}/${OUTPUT_DIR}:/restore_data \
+    ${IMAGE_NAME} \
+    pg_restore \
+      -h ${RESTORE_HOSTNAME} \
+      -p ${RESTORE_PORT} \
+      -U ${RESTORE_USERNAME} \
+      -w \
+      -d ${RESTORE_DATABASE} \
+      -v \
+      -j ${CPU_CORES} \
+      -F d \
+      -x \
+      -O \
+      /restore_data
+else
+  PGPASSWORD=${RESTORE_PASSWORD} PGOPTIONS="-c statement_timeout=0" pg_restore \
+    -h ${RESTORE_HOSTNAME} \
+    -p ${RESTORE_PORT} \
+    -U ${RESTORE_USERNAME} \
+    -w \
+    -d ${RESTORE_DATABASE} \
+    -v \
+    -j ${CPU_CORES} \
+    -F d \
+    -x \
+    -O \
+    ${OUTPUT_DIR}
+fi
 
 echo "pg_restore is finished"
 rm -rf ${OUTPUT_DIR}
