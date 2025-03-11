@@ -49,7 +49,9 @@ if [ "${OS_NAME}" = "Linux" ]; then
       -O \
       /restore_data
 else
-  PGPASSWORD=${RESTORE_PASSWORD} PGOPTIONS="-c statement_timeout=0" pg_restore \
+  PGPASSWORD=${RESTORE_PASSWORD} \
+  PGOPTIONS="-c statement_timeout=0" \
+  pg_restore \
     -h ${RESTORE_HOSTNAME} \
     -p ${RESTORE_PORT} \
     -U ${RESTORE_USERNAME} \
